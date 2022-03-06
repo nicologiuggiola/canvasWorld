@@ -7,7 +7,7 @@ class World {
 
     const columns = level[0].length;
     const rows = level.length;
-    const side = canvas.width / columns;
+    const side = Math.floor(canvas.width / columns);
 
     for (let i = 0; i < rows; i++) {
       const row = level[i];
