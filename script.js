@@ -73,7 +73,6 @@ function solidCollision(player, entity) {
       player.y = entity.y - player.height - 0.1;
     }
     player.speedY = 0;
-
   }
 };
 
