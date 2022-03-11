@@ -59,21 +59,49 @@ class PlayerSprite extends RectSprite {
   constructor(x, y, width, height, speedX, speedY) {
     super(x, y, width, height, speedX, speedY, "magenta");
     this.isPlayer = true;
+    this.isActive = true;
+    this.isSolid = true;
+    this.isJumping = false;
   }
 
   update(canvas, controller) {
     if (controller.isUpClicked) {
-      this.speedY += -0.1;
+      if (this.isJumping === false) {
+        this.speedY += -10;
+        this.isJumping = true;
+      }
     }
-    if (controller.isDownClicked) {
-      this.speedY += 0.1;
-    }
+    // if (controller.isDownClicked) {
+    //   this.speedY += 0.1;
+    // }
     if (controller.isRightClicked) {
-      this.speedX += 0.1;
+      this.speedX += 0.2;
     }
     if (controller.isLeftClicked) {
-      this.speedX += -0.1;
+      this.speedX += -0.2;
     }
+
+    const friction = Physic.getFriction();
+    this.speedX *= friction;
+    this.speedY *= friction;
+
+    const gravity = Physic.getGravity();
+    this.speedX += gravity.x;
+    this.speedY += gravity.y;
     super.update(canvas);
+  }
+
+  manageCollision(sprite, isHorizontal){
+    if (isHorizontal) {
+      this.isJumping = false;
+    }
+  }
+  
+}
+
+class ExitSprite extends RectSprite{
+  constructor(x, y, width, height, speedX, speedY) {
+    super(x, y, width, height, speedX, speedY, "green");
+    this.isExit = true;
   }
 }
